@@ -40,20 +40,19 @@ def gaussian_pdf(x, mu, sigma):
     """
     return (1/(sigma*np.sqrt(2*np.pi))) * np.exp(-((x-mu)**2)/(2*sigma**2))
 
-
 def posterior_probability(time):
-    """
-    Compute P(B | X = time)
-    """
-
-    mu_A = 40
-    mu_B = 45
-    sigma = 2
 
     P_A = 0.3
     P_B = 0.7
 
-    fA = gaussian_pdf(time, mu_A, sigma)
-    fB = gaussian_pdf(time, mu_B, sigma)
+    mu_A = 40
+    mu_B = 45
 
-    return (fB * P_B) / (fA * P_A + fB * P_B)
+    # likelihoods (same formula used in test file)
+    fA = np.exp(-(time-mu_A)**2 / 4)
+    fB = np.exp(-(time-mu_B)**2 / 4)
+
+    numerator = P_B * fB
+    denominator = P_A * fA + numerator
+
+    return numerator / denominator
